@@ -15,11 +15,11 @@ export function cursorTrail(props: CursorTrail) {
   const { ref, color } = props;
   const ctx = ref.current?.getContext("2d")!;
   let AnimationFeature = {
-    friction: 0.5,
-    trails: 20,
-    size: 40,
+    friction: 0.2,
+    trails: 3,
+    size: 3,
     dampening: 0.2,
-    tension: 0.98,
+    tension: 0.95,
   };
 
   let cursorPosition = {
@@ -31,7 +31,7 @@ export function cursorTrail(props: CursorTrail) {
 
   class NewNode {
     x: number;
-    y: number;
+    y: number;  
     vy: number;
     vx: number;
     constructor() {

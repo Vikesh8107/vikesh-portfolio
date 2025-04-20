@@ -1,5 +1,6 @@
 import { ProjectCard } from "@/components/sub/project-card";
 import { PROJECTS } from "@/constants";
+import Image from "next/image";
 
 export const Projects = () => {
   return (
@@ -18,9 +19,19 @@ export const Projects = () => {
             title={project.title}
             description={project.description}
             link={project.link}
-            iframeLink={project.iframeLink}
           />
         ))}
+      </div>
+      <div className="absolute bottom-0 right-0 z-[10]">
+        <Image
+          src="/horse.png"
+          alt="horse"
+          height={300}
+          width={300}
+          className="absolute right-55 top-40"
+        />
+
+        <Image src="/cliff.webp" alt="cliff" width={480} height={480} />
       </div>
     </section>
   );

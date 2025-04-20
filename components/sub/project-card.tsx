@@ -39,8 +39,8 @@ export const ProjectCard = ({
         <Image
           src={src}
           alt={title}
-          width={1000}
-          height={1000}
+          width={500}
+          height={800}
           className="w-full h-48 object-cover"
         />
       )}
