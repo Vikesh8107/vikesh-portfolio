@@ -50,10 +50,13 @@ export const HeroContent = () => {
         </motion.p>
 
         <motion.a
+          href="https://drive.google.com/file/d/19ARHJQfCPdtjiLYIqTGKdYq8KBZDvtpO/view?usp=sharing"
+          target="_blank"
+          rel="noreferrer noopener"
           variants={slideInFromLeft(1)}
           className="py-2 button-primary text-center text-white cursor-pointer rounded-lg max-w-[200px]"
         >
-          Learn more
+          Get Resume
         </motion.a>
       </div>
 
