@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, ReactNode } from "react";
+import React, { useEffect, ReactNode, useState } from "react";
 
 interface GlowCardProps {
   children: ReactNode;
@@ -8,9 +8,15 @@ interface GlowCardProps {
 }
 
 const GlowCard: React.FC<GlowCardProps> = ({ children, identifier }) => {
-  useEffect(() => {
+  const [isClient, setIsClient] = useState(false);
 
-    if (typeof window === "undefined") return; // SSR check
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isClient) return;
+
     const container = document.querySelector<HTMLDivElement>(
       `.glow-container-${identifier}`
     );
@@ -71,7 +77,7 @@ const GlowCard: React.FC<GlowCardProps> = ({ children, identifier }) => {
     return () => {
       document.body.removeEventListener("pointermove", handlePointerMove);
     };
-  }, [identifier]);
+  }, [identifier, isClient]);
 
   return (
     <div className={`glow-container-${identifier} glow-container`}>
