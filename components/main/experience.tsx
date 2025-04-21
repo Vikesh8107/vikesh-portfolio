@@ -1,4 +1,5 @@
-// @flow strict
+"use client";
+
 import { experiences } from "@/constants";
 import Image from "next/image";
 import { BsPersonWorkspace } from "react-icons/bs";

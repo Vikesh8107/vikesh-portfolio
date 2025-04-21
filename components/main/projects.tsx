@@ -1,3 +1,5 @@
+"use client";
+
 import { ProjectCard } from "@/components/sub/project-card";
 import { PROJECTS } from "@/constants";
 import Image from "next/image";
