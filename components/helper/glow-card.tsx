@@ -9,6 +9,8 @@ interface GlowCardProps {
 
 const GlowCard: React.FC<GlowCardProps> = ({ children, identifier }) => {
   useEffect(() => {
+
+    if (typeof window === "undefined") return; // SSR check
     const container = document.querySelector<HTMLDivElement>(
       `.glow-container-${identifier}`
     );
