@@ -7,7 +7,12 @@ import {
   RxTwitterLogo,
   RxLinkedinLogo,
 } from "react-icons/rx";
-import { sub } from "three/examples/jsm/nodes/Nodes.js";
+
+// types/three-nodes.d.ts
+declare module "three/examples/jsm/nodes/Nodes.js" {
+  // Removed duplicate declaration of 'sub' to avoid redeclaration error
+}
+
 
 export const SKILL_DATA = [
   {
