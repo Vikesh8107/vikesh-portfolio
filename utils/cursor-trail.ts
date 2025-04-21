@@ -1,4 +1,4 @@
-import { RefObject } from "react";
+import { RefObject, useRef, useEffect } from "react";
 
 export type CursorTrail = {
   ref: RefObject<HTMLCanvasElement>;
@@ -6,8 +6,10 @@ export type CursorTrail = {
 };
 
 export function cursorTrail(props: CursorTrail) {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
   const colorRaw = getComputedStyle(document.documentElement).getPropertyValue(
-    "--accent",
+    "--accent"
   );
   const accentColor = `hsla(${
     colorRaw ? colorRaw.split(" ").join(",") : "0, 0%, 0%"
@@ -31,7 +33,7 @@ export function cursorTrail(props: CursorTrail) {
 
   class NewNode {
     x: number;
-    y: number;  
+    y: number;
     vy: number;
     vx: number;
     constructor() {
@@ -150,16 +152,21 @@ export function cursorTrail(props: CursorTrail) {
       newLines = [];
       for (let i = 0; i < AnimationFeature.trails; i++) {
         newLines.push(
-          new Line({ spring: 0.45 + (i / AnimationFeature.trails) * 0.025 }),
+          new Line({ spring: 0.45 + (i / AnimationFeature.trails) * 0.025 })
         );
       }
     }
 
-    document.removeEventListener("mousemove", onMouseMove);
-    document.removeEventListener("touchstart", onMouseMove);
-    document.addEventListener("mousemove", move);
-    document.addEventListener("touchmove", createLine);
-    document.addEventListener("touchstart", createLine);
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    canvas.removeEventListener("mousemove", onMouseMove);
+    canvas.removeEventListener("touchstart", onMouseMove);
+
+    canvas.addEventListener("mousemove", move);
+    canvas.addEventListener("touchmove", createLine);
+    canvas.addEventListener("touchstart", createLine);
+
     move(e);
     populateLines();
     renderAnimation();
@@ -182,28 +189,42 @@ export function cursorTrail(props: CursorTrail) {
   }
 
   function renderTrailCursor() {
-    document.addEventListener("mousemove", onMouseMove);
-    document.addEventListener("touchstart", onMouseMove);
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    canvas.addEventListener("mousemove", onMouseMove);
+    canvas.addEventListener("touchstart", onMouseMove);
+
     window.addEventListener("orientationchange", resizeCanvas);
     window.addEventListener("resize", resizeCanvas);
     // window.addEventListener("scroll", trackYScroll);
     window.addEventListener("focus", startAnimation);
     window.addEventListener("blur", stopAnimation);
+
     resizeCanvas();
   }
 
   function cleanUp() {
-    document.removeEventListener("mousemove", move);
-    document.removeEventListener("touchmove", createLine);
-    document.removeEventListener("touchstart", createLine);
-    document.removeEventListener("mousemove", onMouseMove);
-    document.removeEventListener("touchstart", onMouseMove);
+    const canvas = canvasRef.current;
+    if (canvas) {
+      canvas.removeEventListener("mousemove", move);
+      canvas.removeEventListener("touchmove", createLine);
+      canvas.removeEventListener("touchstart", createLine);
+      canvas.removeEventListener("mousemove", onMouseMove);
+      canvas.removeEventListener("touchstart", onMouseMove);
+    }
+
     window.removeEventListener("orientationchange", resizeCanvas);
     window.removeEventListener("resize", resizeCanvas);
     // window.removeEventListener("scroll", trackYScroll);
     window.removeEventListener("focus", startAnimation);
     window.removeEventListener("blur", stopAnimation);
   }
+
+  useEffect(() => {
+    renderTrailCursor();
+    return () => cleanUp();
+  }, []);
 
   return { cleanUp, renderTrailCursor, stopAnimation, startAnimation };
 }
