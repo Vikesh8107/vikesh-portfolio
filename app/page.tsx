@@ -1,11 +1,16 @@
 "use client";
 
-import { Encryption } from "@/components/main/encryption";
+import dynamic from 'next/dynamic';
 import { Hero } from "@/components/main/hero";
-import { Projects } from "@/components/main/projects";
 import { Skills } from "@/components/main/skills";
 import Education from "@/components/main/education";
 import Experience from "@/components/main/experience";
+import { Projects } from "@/components/main/projects";
+
+// Dynamically import the Encryption component with no SSR
+const Encryption = dynamic(() => import('@/components/main/encryption'), {
+  ssr: false
+});
 
 export default function Home() {
   return (
